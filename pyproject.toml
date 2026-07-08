@@ -1,0 +1,59 @@
+[tool.poetry]
+package-mode = false
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry.dependencies]
+python = "^3.14"
+fastapi = "^0.139.0"
+gunicorn = "^26.0.0"
+uvicorn = {extras = ["standard"], version = "^0.50.0"}
+pydantic = {extras = ["email"], version = "^2.13.4"}
+pydantic-settings = "^2.14.2"
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.51"}
+alembic = "^1.18.5"
+pyjwt = "^2.13.0"
+psycopg = {extras = ["binary"], version = "^3.3.4"}
+bcrypt = "^5.0.0"
+
+[dependency-groups]
+dev = [
+    "pylint (>=4.0.6,<5.0.0)",
+    "black (>=26.5.1,<27.0.0)",
+    "mypy (>=2.1.0,<3.0.0)",
+    "isort (>=8.0.1,<9.0.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "pytest (>=9.1.1,<10.0.0)",
+    "faker (>=40.28.1,<41.0.0)"
+]
+
+# black
+[tool.black]
+line-length = 79
+extend-exclude = "migrations/"
+
+# isort
+[tool.isort]
+profile = "black"
+extend_skip_glob = ["migrations"]
+known_local_folder=["core","services", "repositories", "api", "models", "schemas", "tests", "main", "utils"]
+line_length = 79
+
+
+
+# mypy
+[tool.mypy]
+exclude = ["migrations/"]
+
+[tool.pylint]
+ignore = [".git", "__pycache__", "migrations", ".venv"]
+max-line-length = 79
+disable = ["C0114", "C0115", "C0116", "W1514", "W3101", "R0903", "C0103"]
+
+# pytest
+[tool.pytest.ini_options]
+addopts = "-x"
+testpaths = ["app/tests"]

@@ -1,0 +1,52 @@
+services:
+  reverse-proxy:
+    image: traefik:v3.7
+    container_name: traefik
+    ports:
+      - 80:80
+    command:
+      - --log.level=DEBUG
+      - --providers.docker
+      - --providers.docker.exposedbydefault=false
+
+    labels:
+      - "traefik.enable=true"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+
+  backend:
+    build: ./
+    container_name: fitnes-backend
+    env_file:
+      - .env
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: always
+    command: /bin/sh run.sh
+    volumes:
+      - ./media:/app/media
+      - ./app:/app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.backend.rule=Host(`${API_DOMAIN_NAME}`)"
+      - "traefik.http.services.backend-service.loadbalancer.server.port=8000"
+
+  db:
+    image: postgres:alpine
+    container_name: fitnes-db
+    environment:
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 3s
+    volumes:
+      - data:/var/lib/postgresql/data/
+
+volumes:
+  data:
