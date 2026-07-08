@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     DEBUG: bool = True
 
     # fastapi app
-    APP_NAME: str = "GSD GAMES"
+    APP_NAME: str = "APP"
     APP_ALLOWED_ORIGINS: list[str] = ["*"]
     APP_ALLOWED_HOSTS: list[str] = ["*"]
     DOCS_URL: str | None = None

@@ -25,7 +25,6 @@ services:
     restart: always
     command: /bin/sh run.sh
     volumes:
-      - ./media:/app/media
       - ./app:/app
     labels:
       - "traefik.enable=true"
