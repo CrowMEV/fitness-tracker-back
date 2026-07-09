@@ -1,6 +1,6 @@
-[![CI](https://github.com/CrowMEV/gsd-games-back/actions/workflows/actions.yaml/badge.svg)](https://github.com/CrowMEV/gsd-games-back/actions/workflows/actions.yaml)
+[![CI](https://github.com/CrowMEV/fitness-tracker-back/actions/workflows/actions.yaml/badge.svg)](https://github.com/CrowMEV/fitness-tracker-back/actions/workflows/actions.yaml)
 
-# GSD-games
+# Fitness-tracker
 
 ## Настройка проекта
 
